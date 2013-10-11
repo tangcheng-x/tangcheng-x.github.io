@@ -5,12 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>HelloWorld - Kevin's Blog</title>
+  <title>ubuntu12.04安装amd显卡驱动 - Kevin's Blog</title>
   <meta name="author" content="Kevin">
 
   
-  <meta name="description" content="
-">
+  <meta name="description" content="ubuntu12.04安装amd显卡驱动 参考文章, 其中对于一些小问题进行了改善 我的机器的配置是： CPU: i5-4430
+GPU: HD7850
+OS: ubuntu12.04_64 根据显卡型号来下载特定的显卡驱动，其实可以用开源的显卡驱动，但是对于AMD来说，闭源的显卡驱动比开源的要好 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,7 +70,7 @@
   
   <header>
     
-      <h1 class="entry-title">HelloWorld</h1>
+      <h1 class="entry-title">ubuntu12.04安装amd显卡驱动</h1>
     
     
       <p class="meta">
@@ -92,7 +93,93 @@
   </header>
 
 
-<div class="entry-content">
+<div class="entry-content"><h2>ubuntu12.04安装amd显卡驱动</h2>
+
+<p>参考<a href="http://forum.ubuntu.org.cn/viewtopic.php?f=42&amp;t=439130">文章</a>, 其中对于一些小问题进行了改善</p>
+
+<p>我的机器的配置是：</p>
+
+<ul>
+<li>CPU:  i5-4430</li>
+<li>GPU:  HD7850</li>
+<li>OS:   ubuntu12.04_64</li>
+</ul>
+
+
+<blockquote><p>根据显卡型号来下载特定的显卡驱动，其实可以用开源的显卡驱动，但是对于AMD来说，闭源的显卡驱动比开源的要好，所以我们就直接在AMD<a href="http://support.amd.com/cn/Pages/AMDSupportHub.aspx">官网</a>上下载就行</p></blockquote>
+
+<h4>卸载已有的驱动(如果没有，可以无视这个步骤)</h4>
+
+<pre><code>
+sudo sh /usr/share/ati/fglrx-uninstall.sh
+sudo apt-get remove --purge fglrx fglrx_* fglrx-amdcccle* fglrx-dev*
+sudo apt-get remove --purge xorg-driver-fglrx xserver-xorg-video-ati xserver-xorg-video-radeon
+</code></pre>
+
+
+<h3>更新源</h3>
+
+<pre><code>
+sudo apt-get update
+</pre>
+
+
+<p></code></p>
+
+<h3>安装打包支持环境</h3>
+
+<pre><code>
+sudo apt-get install dpkg build-essential cdbs dh-make dkms execstack dh-modaliases fakeroot libqtgui4 dpkg-dev
+
+sudo apt-get install build-essential cdbs fakeroot dh-make debhelper debconf libstdc++6 dkms libqtgui4 wget execstack libelfg0 dh-modaliases
+</pre>
+
+
+<p></code></p>
+
+<h3>安装ia32位库</h3>
+
+<pre><code>
+sudo apt-get install ia32-libs
+sudo apt-get install ia32-libs-multiarch:i386 lib32gcc1 libc6-i386
+</pre>
+
+
+<p></code></p>
+
+<h3>解压下载下来的驱动，然后进入安装目录，执行：</h3>
+
+<pre><code>
+sudo chmod +x amd-driver-installer-catalyst-13-4-x86.x86_64.run
+
+sudo sh ./amd-driver-installer-catalyst-13-4-x86.x86_64.run --buildpkg Ubuntu/raring
+</pre>
+
+
+<p></code>
+这会生成三个文件：fglrx_12.104-0ubuntu1_amd64.deb， fglrx-amdcccle_12.104-0ubuntu1_amd64.deb，fglrx-dev_12.104-0ubuntu1_amd64.deb</p>
+
+<h3>安装打包好的deb文件</h3>
+
+<pre><code>
+sudo dpkg -i fglrx*.deb
+</code></pre>
+
+
+<h3>重启</h3>
+
+<p>在上述命令完成之后，重启电脑，发现电脑竟然不能全屏，这让我很是纠结，上网找了N多资料，最终搞定了。
+若是遇到非全屏的问题，执行：</p>
+
+<pre><code>
+sudo amdconfig --set-pcs-val=MCIL,DigitalHDTVDefaultUnderscan,0
+sudo reboot
+</code></pre>
+
+
+<p>这中间如果出现关于config文件找不到的问题，需要init一下config文件，不过错误提示中会指导你怎么做，所以不必担心。</p>
+
+<p>重启之后发现完全OK啦，好吧，这个问题也就搞定了。</p>
 </div>
 
 
@@ -117,6 +204,12 @@
 
 <time datetime="2013-10-12T02:02:00+08:00" pubdate data-updated="true">Oct 12<span>th</span>, 2013</time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/os/'>OS</a>
+  
+</span>
 
 
     </p>
@@ -146,7 +239,7 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/10/12/helloworld/">HelloWorld</a>
+        <a href="/blog/2013/10/12/helloworld/">ubuntu12.04安装amd显卡驱动</a>
       </li>
     
   </ul>

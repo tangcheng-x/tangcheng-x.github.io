@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Kevin's Blog]]></title>
-  <link href="http://tangcheng-x.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Linux | Kevin's Blog]]></title>
+  <link href="http://tangcheng-x.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://tangcheng-x.github.io/"/>
   <updated>2013-10-12T02:10:13+08:00</updated>
   <id>http://tangcheng-x.github.io/</id>
