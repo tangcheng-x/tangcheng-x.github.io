@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: 
-
-Sitemap: http://tangcheng-x.github.io/sitemap.xml 
