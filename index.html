@@ -9,8 +9,9 @@
   <meta name="author" content="Kevin">
 
   
-  <meta name="description" content="一道简单的C++ union的问题 #include using namespace std; union A { int t; char s[2];
-}; int main() { A a; a.t = 0; a.s[0] = 1; a.s[1] = 2; cout << a.t << endl &hellip;">
+  <meta name="description" content="一道简单的C++ union的问题 #include &lt;iostream&gt;
+using namespace std; union A { int t; char s[2];
+}; int main() { A a; a.t = 0; a.s[0] = 1; a.s[1] = 2; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -97,8 +98,7 @@
 
   <div class="entry-content"><h2>一道简单的C++ union的问题</h2>
 
-<pre><code>
-#include <iostream>
+<pre><code>#include &lt;iostream&gt;
 using namespace std;
 
 union A {
@@ -111,22 +111,18 @@ int main() {
     a.t = 0;
     a.s[0] = 1;
     a.s[1] = 2;
-    cout << a.t << endl;
+    cout &lt;&lt; a.t &lt;&lt; endl;
     return 0;
 }
+</code></pre>
 
-</pre>
-
-
-<p></code>
-这个问题很简单，就是让我们回答输出的a.t是多少。问题虽然很小，但是却反映了C++中的两个重要的知识点：union和数据类型</p>
+<p>这个问题很简单，就是让我们回答输出的a.t是多少。问题虽然很小，但是却反映了C++中的两个重要的知识点：union和数据类型</p>
 
 <h2>C++ 中的union</h2>
 
 <p>我们知道，union是一种特殊的class,同时也是一种构造类型的数据结构，其中声明的所有的成员共享同一块内存。因此，一个union的变量的长度就是等于其声明的成员中最长的长度。如下面的例子所示：</p>
 
-<pre><code>
-#include <iostream>
+<pre><code>#include &lt;iostream&gt;
 using namespace std;
 
 union M {
@@ -137,14 +133,12 @@ union M {
 
 int main() {
     M m;
-    cout << sizeof(m) << endl;
+    cout &lt;&lt; sizeof(m) &lt;&lt; endl;
     return 0;
 }
-</pre>
+</code></pre>
 
-
-<p></code>
-我们可以看到，上面的代码执行之后得到的结果是 8(这里的单位是byte)，然后我们将注释掉 &lsquo;double c&rsquo;, 运行之后得到的结果是 4。实验的结果正如上文所说的一个union的变量的长度就是等于其声明的成员中最长的长度。那么原始的问题中定义的union A的大小是多少呢？由于 char s[2]的大小是2，而int的大小是4，那么显然，在main函数的变量 a 的大小就是4.</p>
+<p>我们可以看到，上面的代码执行之后得到的结果是 8(这里的单位是byte)，然后我们将注释掉 &lsquo;double c&rsquo;, 运行之后得到的结果是 4。实验的结果正如上文所说的一个union的变量的长度就是等于其声明的成员中最长的长度。那么原始的问题中定义的union A的大小是多少呢？由于 char s[2]的大小是2，而int的大小是4，那么显然，在main函数的变量 a 的大小就是4.</p>
 
 <h2>整数的表示</h2>
 
@@ -187,11 +181,10 @@ int main() {
 a.t = 0;    //00000000 00000000 00000000 00000000
 a.s[0] = 1; //00000000 00000000 00000000 00000001
 a.s[1] = 2; //00000000 00000000 00000010 00000001
-</pre>
+</code></pre>
 
 
-<p></code>
-结果就是 2<sup>7</sup> + 2<sup>0</sup> = 513</p>
+<p>结果就是 2<sup>7</sup> + 2<sup>0</sup> = 513</p>
 </div>
   
   
@@ -364,6 +357,14 @@ sudo reboot
 
 
 
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
 
 
 
