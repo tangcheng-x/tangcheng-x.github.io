@@ -1,24 +1,98 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: C++ | Kevin's Blog]]></title>
-  <link href="http://tangcheng-x.github.io/blog/categories/c-plus-plus/atom.xml" rel="self"/>
-  <link href="http://tangcheng-x.github.io/"/>
-  <updated>2013-10-14T01:05:58+08:00</updated>
-  <id>http://tangcheng-x.github.io/</id>
-  <author>
-    <name><![CDATA[Kevin]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Rubik's Magic问题解答 - Kevin's Blog</title>
+  <meta name="author" content="Kevin">
 
   
-  <entry>
-    <title type="html"><![CDATA[Rubik's Magic问题解答]]></title>
-    <link href="http://tangcheng-x.github.io/blog/2013/10/13/rubiks-magic/"/>
-    <updated>2013-10-13T23:12:00+08:00</updated>
-    <id>http://tangcheng-x.github.io/blog/2013/10/13/rubiks-magic</id>
-    <content type="html"><![CDATA[<p>最近上算法课，在<a href="http://soj.me/index.php">中大sicily</a>上面有3道魔板题<a href="http://soj.me/1150">1150.简单魔板</a>，<a href="http://soj.me/1151">1151.魔板</a>，和<a href="http://soj.me/1515">1515.魔板C</a>。为了方便讲解，我现将1150题目抄录下来:</p>
+  <meta name="description" content="最近上算法课，在中大sicily上面有3道魔板题1150.简单魔板，1151.魔板，和1515.魔板C。为了方便讲解，我现将1150题目抄录下来: 题目描述 魔板是由8个大小相同的方块组成，分别涂上不同的颜色，用1到8的数字表示其初始状态是 1 2 3 4
+8 7 6 5 对模板可进行三种基本操作 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tangcheng-x.github.io/blog/2013/10/13/rubiks-magic">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Kevin's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Kevin's Blog</a></h1>
+  
+    <h2>Core of Kevin.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tangcheng-x.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Rubik's Magic问题解答</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-13T23:12:00+08:00" pubdate data-updated="true">Oct 13<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>最近上算法课，在<a href="http://soj.me/index.php">中大sicily</a>上面有3道魔板题<a href="http://soj.me/1150">1150.简单魔板</a>，<a href="http://soj.me/1151">1151.魔板</a>，和<a href="http://soj.me/1515">1515.魔板C</a>。为了方便讲解，我现将1150题目抄录下来:</p>
 
 <h4>题目描述</h4>
 
@@ -246,104 +320,128 @@ string operationC(string str) {
 </code></pre>
 
 <p>当然，这个版本实现是比较简单的，并且效率不高，可以优化的地方在于查找相同状态和状态的表示方法，这都需要进一步的改进，在后面的博客中会进行说明。</p>
-]]></content>
-  </entry>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
-  <entry>
-    <title type="html"><![CDATA[一道有意思的union问题]]></title>
-    <link href="http://tangcheng-x.github.io/blog/2013/10/12/cplusplusunion/"/>
-    <updated>2013-10-12T02:23:00+08:00</updated>
-    <id>http://tangcheng-x.github.io/blog/2013/10/12/cplusplusunion</id>
-    <content type="html"><![CDATA[<h2>一道简单的C++ union的问题</h2>
 
-<pre><code>#include &lt;iostream&gt;
-using namespace std;
+<span class="byline author vcard">Posted by <span class="fn">Kevin</span></span>
 
-union A {
-    int t;
-    char s[2];
-};
-
-int main() {
-    A a;
-    a.t = 0;
-    a.s[0] = 1;
-    a.s[1] = 2;
-    cout &lt;&lt; a.t &lt;&lt; endl;
-    return 0;
-}
-</code></pre>
-
-<p>这个问题很简单，就是让我们回答输出的a.t是多少。问题虽然很小，但是却反映了C++中的两个重要的知识点：union和数据类型</p>
-
-<h2>C++ 中的union</h2>
-
-<p>我们知道，union是一种特殊的class,同时也是一种构造类型的数据结构，其中声明的所有的成员共享同一块内存。因此，一个union的变量的长度就是等于其声明的成员中最长的长度。如下面的例子所示：</p>
-
-<pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-union M {
-    char a;
-    int b;
-    double c;
-};
-
-int main() {
-    M m;
-    cout &lt;&lt; sizeof(m) &lt;&lt; endl;
-    return 0;
-}
-</code></pre>
-
-<p>我们可以看到，上面的代码执行之后得到的结果是 8(这里的单位是byte)，然后我们将注释掉 &lsquo;double c&rsquo;, 运行之后得到的结果是 4。实验的结果正如上文所说的一个union的变量的长度就是等于其声明的成员中最长的长度。那么原始的问题中定义的union A的大小是多少呢？由于 char s[2]的大小是2，而int的大小是4，那么显然，在main函数的变量 a 的大小就是4.</p>
-
-<h2>整数的表示</h2>
-
-<p>如果说这道题只是单纯地进行union的分析，那么它的价值就不会很大了，这道题的另一个知识点就是整数的表示。
-大家都知道数据在计算机中是按字节来存储的(1byte = 8bits)，而计算机只能识别0和1这两个数。这样，1个字节能表示256种不同的信息(2<sup>8</sup> = 256)。比如我们要定一个1字节的无符号整数</p>
-
-<pre><code>unsigned char a;</code></pre>
+      
 
 
-<p>那么a就能表示在[0,255]区间内的数，比如说我现在设定<code>a = 17</code>那么在计算机中，a就表示为00010001。而计算机中无符号数就是按照这个书的本身的二进制码来存储的。但是别急，这只是无符号整数的表示，而下面有符号的整数就不是这么简单了。</p>
-
-<h3>有符号整数的表示</h3>
-
-<p>从上文我们可以知道无符号数的表示直接以原码的形式展现出来，但是一旦一个数是负数的时候该如何表示呢？如果是书面的去写负数，很简
-单，正数前面加一个<code>&ndash;</code>就可以了，但是我们却不能在计算机中这么做(只能识别1和0的计算机君表示根本不知道这是什么玩意
-儿)，那么就引入了这样的一种表示方法，那就是最高位作为符号位，如果第一位是0则表示正数，第一位是1就表示负数，这样的话，对于一个
-8位的二进制来说，表示数值的只有7位了，那么表示有符号整数的正数范围是[1, 127], 负数的范围就是[-127, -1]，当然，还有0，但是
-我们看到一个问题，那就是当我们表示-127的时候，二进制表示为11111111，这和无符号数里面的255是一样的，那么具体是表示-1还是
-255，就需要我们人为来指定了。而在计算机中，真正用来表示有符号数的是补码。这里我们需要了解：原码，反码，补码。
-对于正数，原码/反码／补码都是其原码本身；但是负数的反码是除去符号位之外的所有位取反，而补码是反码加一。
-上述的内容大家可能觉得知其然，但是为什么有符号整数需要用补码来表示呢？
-我们首先看看如果用原码来表示有符号数有什么不合逻辑的地方，让我们来表示+0和-0。
-+0: 00000000
--0: 10000000
-反码表示+0和-0
-+0: 00000000
--0: 11111111
-上述的两种表示中，+0和-0的表示不是一样的，这样就有违背我们数学上关于0的意义。下面，我们看看补码是如何表示+0和-0的
-+0: 00000000
--0: 00000000
-哈，两种表示是一样的，那么自然我们采取补码来表示有符号整数，其实非负数的表示范围是00000000～01111111，而负数的表示范围是
-11111111～10000000，记住了，10000000不是表示0的，是表示-128。所以这样一来，补码表示就比原码和反码表示的范围都大，并且
-也解释了为什么计算机中有符号整数的范围是非对称的^&ndash;^</p>
-
-<h2>程序的结果</h2>
-
-<p>根据上述的关于union和有符号整数的分析，我们可以知道程序的输出了。简单地演算一下吧</p>
-
-<pre><code>
-a.t = 0;    //00000000 00000000 00000000 00000000
-a.s[0] = 1; //00000000 00000000 00000000 00000001
-a.s[1] = 2; //00000000 00000000 00000010 00000001
-</code></pre>
 
 
-<p>结果就是 2<sup>7</sup> + 2<sup>0</sup> = 513</p>
-]]></content>
-  </entry>
+
+
+
+
   
-</feed>
+
+
+<time datetime="2013-10-13T23:12:00+08:00" pubdate data-updated="true">Oct 13<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/algorithm/'>Algorithm</a>, <a class='category' href='/blog/categories/c-plus-plus/'>C++</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://tangcheng-x.github.io/blog/2013/10/13/rubiks-magic/" data-via="" data-counturl="http://tangcheng-x.github.io/blog/2013/10/13/rubiks-magic/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/10/12/cplusplusunion/" title="Previous Post: 一道有意思的union问题">&laquo; 一道有意思的union问题</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/10/13/rubiks-magic/">Rubik's Magic问题解答</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/12/cplusplusunion/">一道有意思的union问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/12/helloworld/">ubuntu12.04安装amd显卡驱动</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kevin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
