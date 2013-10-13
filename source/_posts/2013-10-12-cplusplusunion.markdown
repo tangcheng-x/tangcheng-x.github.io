@@ -9,46 +9,44 @@ categories:
 ---
 ##一道简单的C++ union的问题
 
-<pre><code>
-#include <iostream>
-using namespace std;
+	#include <iostream>
+	using namespace std;
+	
+	union A {
+    	int t;
+    	char s[2];
+	};
 
-union A {
-    int t;
-    char s[2];
-};
+	int main() {
+    	A a;
+    	a.t = 0;
+    	a.s[0] = 1;
+    	a.s[1] = 2;
+    	cout << a.t << endl;
+    	return 0;
+	}
 
-int main() {
-    A a;
-    a.t = 0;
-    a.s[0] = 1;
-    a.s[1] = 2;
-    cout << a.t << endl;
-    return 0;
-}
 
-</pre></code>
 这个问题很简单，就是让我们回答输出的a.t是多少。问题虽然很小，但是却反映了C++中的两个重要的知识点：union和数据类型
 
 ## C++ 中的union
 我们知道，union是一种特殊的class,同时也是一种构造类型的数据结构，其中声明的所有的成员共享同一块内存。因此，一个union的变量的长度就是等于其声明的成员中最长的长度。如下面的例子所示：
 
-<pre><code>
-#include <iostream>
-using namespace std;
+	#include <iostream>
+	using namespace std;
+	
+	union M {
+    	char a;
+    	int b;
+    	double c;
+	};
 
-union M {
-    char a;
-    int b;
-    double c;
-};
+	int main() {
+    	M m;
+    	cout << sizeof(m) << endl;
+    	return 0;
+	}
 
-int main() {
-    M m;
-    cout << sizeof(m) << endl;
-    return 0;
-}
-</pre></code>
 我们可以看到，上面的代码执行之后得到的结果是 8(这里的单位是byte)，然后我们将注释掉 'double c', 运行之后得到的结果是 4。实验的结果正如上文所说的一个union的变量的长度就是等于其声明的成员中最长的长度。那么原始的问题中定义的union A的大小是多少呢？由于 char s[2]的大小是2，而int的大小是4，那么显然，在main函数的变量 a 的大小就是4.
 
 ##整数的表示
@@ -85,7 +83,7 @@ int main() {
 a.t = 0;    //00000000 00000000 00000000 00000000
 a.s[0] = 1; //00000000 00000000 00000000 00000001
 a.s[1] = 2; //00000000 00000000 00000010 00000001
-</pre></code>
+</code></pre>
 结果就是 2^7 + 2^0 = 513
 
 
