@@ -1,0 +1,208 @@
+---
+layout: post
+title: "Rubik's Magic问题解答"
+author: Kevin
+date: 2013-10-13 23:12
+comments: true
+categories: 
+- C++
+- Algorithm
+---
+最近上算法课，在[中大sicily](http://soj.me/index.php)上面有3道魔板题[1150.简单魔板](http://soj.me/1150)，[1151.魔板](http://soj.me/1151)，和[1515.魔板C](http://soj.me/1515)。为了方便讲解，我现将1150题目抄录下来:
+####题目描述
+魔板是由8个大小相同的方块组成，分别涂上不同的颜色，用1到8的数字表示其初始状态是
+
+<code>
+1 2 3 4<br />
+8 7 6 5
+</code>
+
+对模板可进行三种基本操作：
+
++ A操作(上下行互换)
+
+<code>
+8 7 6 5<br />
+1 2 3 4
+</code>
+
++ B操作(每次以行循环右移一个)
+
+<code>
+4 1 2 3<br />
+5 8 7 6
+</code>
+
++ C操作(中间四小块顺时针转一格)
+
+<code>
+1 7 2 4<br />
+8 6 3 5
+</code>
+
+用上述三种基本操作，可将任意一种状态转换为另一种状态。
+
+####输入
+输入包括多个要求解的魔板，每个魔板用三行描述。<br />
+第一行步数N（不超过10的整数），表示最多容许的步数。<br />
+第二、第三行表示目标状态，按照魔板的形状，颜色用1到8的表示。<br />
+当N等于-1的时候，表示输入结束<br />
+
+###输出
+对于每一个要求解的魔板，输出一行。<br />
+首先是一个整数M，表示你找到解答所需要的步数。接着若干个空格之后，从第一步开始按顺序给出M步操作（每一步是A、B或C），相邻两个操作之间没有任何空格。<br />
+注意：如果不能达到，则M输出-1即可。
+
+
+####样例输入
+
+<code>
+4<br />
+5 8 7 6<br />
+4 1 2 3<br />
+3<br />
+8 7 6 5<br />
+1 2 3 4<br />
+-1
+</code>
+
+####样例输出
+
+<code>
+2 AB<br />
+1 A
+</code>
+
+
+这道题如果单纯从解题的要求上看，不是很难。利用广度优先遍历可以解决这个问题。但是需要进行简单的剪枝，那么下面介绍一下具体的算法设计的过程
+
+###算法的整体设计
+因为要在限制的步数内找到合理的操作使得模板满足输入中的那些形式，所以可以使用广度优先遍历，那么首先，我们对初始的模板(初始操作X)进行三种操作:A, B, C:
+####第一次
+<code>
+A 操作： X->XA<br />
+B 操作： X->XB<br />
+C 操作： X->XC
+</code>
+
+完成三个操作之后得到三个不同的状态 XA， XB， XC，下面分别对这三个状态再次进行A，B，C三种操作
+####第二次
+<code>
+对XA操作<br />
+A 操作：XA->XAA(这个需要忽略，因为两次连续的A操作相当与没有进行操作)<br />
+B 操作：XA->XAB<br />
+C 操作：XA->XAC<br />
+</code>
+
+<code>
+对XB操作<br />
+A 操作：XB->XBA(这个需要忽略，XAB和XBA得到的最终状态是一样的)<br />
+B 操作：XB->XBB<br />
+C 操作：XB->XBC<br />
+</code>
+
+<code>
+对XC操作<br />
+A 操作：XC->XCA<br />
+B 操作：XC->XCB<br />
+C 操作：XC->XCC<br />
+</code>
+
+###...
+
+经过若干次之后，如果给出的目标魔板状态可以达到，那么会得到一个拥有最少操作步骤的解。那么我们程序的整体的算法就解释清楚了，现在
+进行具体的数据结构和算法的设计。
+
+###数据结构和算法设计
+由上面的分析可知，我们需要记录每次进行操作之后的状态和达到这个状态所进行的所有的操作，我设计一个结构体来存储这两种元素
+	struct node {
+		string str;
+		string ops;
+	};
+然后我们需要定义三种变换，这三种变换的函数定义如下：
+
+	//A operation
+	string operationA(string str) {
+		string temp = str;
+		temp[0] = str[4];
+		temp[1] = str[5];
+		temp[2] = str[6];
+		temp[3] = str[7];
+		temp[4] = str[0];
+		temp[5] = str[1];
+		temp[6] = str[2];
+		temp[7] = str[3];
+		return temp;
+	}
+
+	// B operation
+	string operationB(string str) {
+		string temp = str;
+		temp[0] = str[3];
+		temp[1] = str[0];
+		temp[2] = str[1];
+		temp[3] = str[2];
+		temp[4] = str[7];
+		temp[5] = str[4];
+		temp[6] = str[5];
+		temp[7] = str[6];
+		return temp;
+	}
+
+	// C operation
+	string operationC(string str) {
+		string temp = str;
+		temp[1] = str[5];
+		temp[2] = str[1];
+		temp[6] = str[2];
+		temp[5] = str[6];
+		return temp;
+	}
+
+现在，就要进行过程演绎了。首先，为了方便进行判定状态的重复性，我利用一个容器来存储魔板状态
+	vector<string> states;
+然后我需要将每次生成的新的状态的状态信息和操作信息存到一个新的node里面，然后将node放到一个容器中，这里我选择的容器为队列，因为队列有个特性是每次都将最先一个push进去的置为top，所以这样我可以依次将node取出来进行三种操作，并且可以保证每次取的都是最早放进去的。
+	queue<node> nodes;
+
+查看新的状态(不是目标状态)是否之前已经生成过了，如果没有生成过，那么就将状态和存储状态＆操作的节点分别存入states和nodes中
+	void findAndPush(node& newNode, queue<node>& nodes, vector<string>& states) {
+		if (find(states.begin(), states.end(), newNode.str) == states.end()) {
+			states.push_back(newNode.str);
+			nodes.push(newNode);
+		}	
+	}
+
+下面是主要的处理函数
+	node process(const node& org, queue<node>& nodes, vector<string>& states) {
+		if (org.str == target)
+			return org;
+		nodes.push(org);
+		states.push_back(org.str);
+
+		while (!nodes.empty()) {
+			node curNode = nodes.front();
+			nodes.pop();
+
+			if (curNode.ops.length() >= N)
+				break;
+			string changes[3];
+			changes[0] = operationA(curNode.str);
+			changes[1] = operationB(curNode.str);
+			changes[2] = operationC(curNode.str);
+
+			for (int i = 0; i != 3; i++) {
+				node newNode;
+				newNode.ops = curNode.ops + ops[i];
+				newNode.str = changes[i];
+
+				if (target == newNode.str)
+					return newNode;
+				findAndPush(newNode, nodes, states);
+			}
+		}
+		node notFound;
+		notFound.ops = "error";
+		return notFound;
+	}
+
+当然，这个版本实现是比较简单的，并且效率不高，可以优化的地方在于查找相同状态和状态的表示方法，这都需要进一步的改进，在后面的博客中会进行说明。
