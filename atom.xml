@@ -4,7 +4,7 @@
   <title><![CDATA[Kevin's Blog]]></title>
   <link href="http://tangcheng-x.github.io/atom.xml" rel="self"/>
   <link href="http://tangcheng-x.github.io/"/>
-  <updated>2013-10-21T00:25:27+08:00</updated>
+  <updated>2013-10-21T00:28:54+08:00</updated>
   <id>http://tangcheng-x.github.io/</id>
   <author>
     <name><![CDATA[Kevin]]></name>
@@ -52,7 +52,7 @@ Size of s2: 8
 
 <p><em>实现A</em></p>
 
-<p><img src="images/BLOG_IMAGE/string_implementation_A.png" alt="String Implementation A" /></p>
+<p><img src="http://tangcheng-x.github.io/images/BLOG_IMAGE/string_implementation_A.png" alt="String Implementation A" /></p>
 
 <p>我们看上图，每个string对象包含这些内容：</p>
 
@@ -68,7 +68,7 @@ Size of s2: 8
 
 <p><em>实现B</em></p>
 
-<p><img src="images/BLOG_IMAGE/string_implementation_B.png" alt="String Implementation B" /></p>
+<p><img src="http://tangcheng-x.github.io/images/BLOG_IMAGE/string_implementation_B.png" alt="String Implementation B" /></p>
 
 <p>现在我们将注意力放在B实现上面，B实现的string指向的对象包含以下元素：</p>
 
@@ -84,13 +84,13 @@ Size of s2: 8
 
 <p><em>实现C</em></p>
 
-<p><img src="images/BLOG_IMAGE/string_implementation_C.png" alt="String Implementation C" /></p>
+<p><img src="http://tangcheng-x.github.io/images/BLOG_IMAGE/string_implementation_C.png" alt="String Implementation C" /></p>
 
 <p>在这个实现里面，string的对象就是一个指针，这个指针指向了“一个包含所有与string相关的东西的动态分配缓冲器:它的大小、容量、引用计数和值。”(原文)。这里面有个很显著的区别就是没有了配置器。</p>
 
 <p><em>实现D</em></p>
 
-<p><img src="http://tangcheng-x.github.io/home/albert/octopress/source/images/BLOG_IMAGE/string_implementation_D.png" alt="String Implementation D" /></p>
+<p><img src="http://tangcheng-x.github.io/images/BLOG_IMAGE/string_implementation_D.png" alt="String Implementation D" /></p>
 
 <p>实现D的string对象是比较大的，在采用默认配置器的情况下足足有一个指针大小的7倍(释疑了)。这个实现跟上面三种实现的一个重要的区别是没有使用引用计数，多了一个缓冲区，这个缓冲区最多可以容纳拥有15个字符的字符串。当需要表示超过15个字符的字符串的时候，这个缓冲区的一部分将会被用作指向动态分配的内存的指针，而字符串会被放在那块内存中。</p>
 
