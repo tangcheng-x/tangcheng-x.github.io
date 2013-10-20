@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C++ | Kevin's Blog]]></title>
   <link href="http://tangcheng-x.github.io/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://tangcheng-x.github.io/"/>
-  <updated>2013-10-14T01:05:58+08:00</updated>
+  <updated>2013-10-21T00:22:37+08:00</updated>
   <id>http://tangcheng-x.github.io/</id>
   <author>
     <name><![CDATA[Kevin]]></name>
@@ -12,6 +12,121 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[C++ 中的 String]]></title>
+    <link href="http://tangcheng-x.github.io/blog/2013/10/16/cplusplusstring/"/>
+    <updated>2013-10-16T00:44:00+08:00</updated>
+    <id>http://tangcheng-x.github.io/blog/2013/10/16/cplusplusstring</id>
+    <content type="html"><![CDATA[<p>最近心血来潮，想自己去实现一个小型的C++标准库(基础捉急啊)，本身C++标准库已经相当强大了，当然，它也有一些缺陷，但是它的设计
+和实现都是值得我们花时间去琢磨的。
+插一句，我身边的很多同学都不明白为什么我要重复造轮子，可是，如果我们没有造过轮子，怎么知道轮子是怎么运作的呢？并且，想问一句，
+真的这些轮子我们都了解深刻了吗？所以我觉得想要真正了解，必须要自己实践才行，<em>“纸上得来终觉浅，绝知此事要躬行”</em>。</p>
+
+<p>我首先是对C++里面的string下手了。</p>
+
+<p>首先，我们需要了解C++中的string的实现的机制，在 <em>Effective STL</em> 这本书中的条款15那一章讲到，string有多种实现方法。这样就会在我们日常代码设计和实现的时候导致一些不确定的因素，在那本书上就提到了一个不起眼的小问题：<em>一个string对象的大小是多少？</em>，我们会直接想到，sizeof(string)呗，有啥问题？在我的电脑上实验的情况如下:<br />
+首先是测试代码：</p>
+
+<pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+int main() {
+    string s1 = "abcde";
+    string s2 = s1;
+    cout &lt;&lt; "Size of s1: ” &lt;&lt; sizeof(s1) &lt;&lt; endl;
+    cout &lt;&lt; "Size of s2: " &lt;&lt; sizeof(s2) &lt;&lt; endl;
+    return 0;
+}
+</code></pre>
+
+<p>运行的结果是：</p>
+
+<pre><code>Size of s1: 8
+Size of s2: 8
+</code></pre>
+
+<p>运行的结果其实就是和一个char*的大小一样，当然，这是在我的电脑上实验的。<em>Effective STL</em> 提到了有些编译器实现的string对象的大小是char*的7倍，我们姑且相信这个结论，那么就有一个现象出现了，那就是我们之前提到的，实现string有多种方法。那么主要有几种方法呢？在 <em>Effective STL</em> 里面提到了四种实现方法。</p>
+
+<p>我们先看四种实现(摘自<em>Effective STL</em>)：</p>
+
+<p><em>实现A</em></p>
+
+<p><img src="/home/albert/octopress/source/images/BLOG_IMAGE/string_implementation_A.png" alt="String Implementation A" /></p>
+
+<p>我们看上图，每个string对象包含这些内容：</p>
+
+<ol>
+<li>配置器的拷贝(Allocator)</li>
+<li>字符串的大小(Size)</li>
+<li>容量(Capacity)</li>
+<li>一个指向动态分配的缓冲区的指针，这个缓冲区包括引用计数和字符串值。</li>
+</ol>
+
+
+<p>在这里，如果使用默认的配置器，那么这个string的对象的大小是指针大小的4倍。但是如果配置器的大小发生变化，那么string的大小亦会发生变化。</p>
+
+<p><em>实现B</em></p>
+
+<p><img src="/home/albert/octopress/source/images/BLOG_IMAGE/string_implementation_B.png" alt="String Implementation B" /></p>
+
+<p>现在我们将注意力放在B实现上面，B实现的string指向的对象包含以下元素：</p>
+
+<ol>
+<li>字符串大小(Size)</li>
+<li>容量(Capative)</li>
+<li>引用计数(RefCnt)</li>
+<li>指向容纳字符串值的动态分配的缓冲区的指针(Pointer)</li>
+</ol>
+
+
+<p>这里，我们发现，有一个很大的区域(至少图上画得很大>_&lt;)。是的，这是用来干嘛的呢？作者说是因为string指向的对象包含在多线程中与并发控制相关的一些附加数据。好吧，这个是用于存放用于并发控制的数据。</p>
+
+<p><em>实现C</em></p>
+
+<p><img src="/home/albert/octopress/source/images/BLOG_IMAGE/string_implementation_C.png" alt="String Implementation C" /></p>
+
+<p>在这个实现里面，string的对象就是一个指针，这个指针指向了“一个包含所有与string相关的东西的动态分配缓冲器:它的大小、容量、引用计数和值。”(原文)。这里面有个很显著的区别就是没有了配置器。</p>
+
+<p><em>实现D</em></p>
+
+<p><img src="/home/albert/octopress/source/images/BLOG_IMAGE/string_implementation_D.png" alt="String Implementation D" /></p>
+
+<p>实现D的string对象是比较大的，在采用默认配置器的情况下足足有一个指针大小的7倍(释疑了)。这个实现跟上面三种实现的一个重要的区别是没有使用引用计数，多了一个缓冲区，这个缓冲区最多可以容纳拥有15个字符的字符串。当需要表示超过15个字符的字符串的时候，这个缓冲区的一部分将会被用作指向动态分配的内存的指针，而字符串会被放在那块内存中。</p>
+
+<p>其实我们可以看到，以上的四种实现方法是个有特点，例如，从共享性来分析。首先，我们可以排除D，因为D没有引入引用计数这一元素，所以对象本身包括对象所指向的内存空间均没有设置为别的对象所引用。然后我们看到，A， B， C中，A的引用计数单纯地是用来表达对象所指的内存的引用次数。而在B和C的实现中，对象本身就包含有引用计数这一成员。并且因为B和C能够共享字符串的大小和容量，而C的实现是唯一一个共享配置器的实现。</p>
+
+<p>现在我们看四种方式实现的string对象的大小，以例子来讲</p>
+
+<pre><code>string s("hello");
+</code></pre>
+
+<p>这个例子中，s是一个大小为5的字符串，那么在A的实现中，我们之前提到，string的对象的大小是指针大小的4倍，那么A实现中这个string对象s的最小分配的大小就是32，容量是31，因为最后地32个字符会被保留为null。实现B因为没有最小分配，在 <em>Effective STL</em> 上面说容量是7，因为没有做这个实验，所以我不敢确认。实现C因为没有保留尾部的空间，所以它的最小分配的大小是16，容量也是16 。实现D的最小缓冲区大小也是16,包括尾部null的空间。</p>
+
+<p>上面说了这么多，无非是想表达一个观点，简约而不简单(一直觉得这个广告词挺好的，设计上也适用)。我们在实践中很多时候是直接用string，而忽视了它的实现的细节，我们会觉得这个设计很好用，但是我们却没有关注到这个设计背后所做的种种工作。闲话不说，接着讲string。</p>
+
+<p>了解了几种实现之后，作为开发者，所用的最多的编译器无非是Visual C++和G++，那么在这两种编译器里面所支持sring的设计优势如何呢？在G++中，std::string的实现是一种 <em>Copy-on-Write</em> 的实现。而在VIsual C++中的实现就是短字符串优化，利用string对象本身的空间来存储短字符串。下面我们先解释一下什么叫做Copy-on-Write。</p>
+
+<h4>Copy-on-Write</h4>
+
+<p>Copy-on-Write, 顾名思义，就是写时拷贝，它的核心思想就是在多个实体之间共享资源，当某个尸体需要修改这个资源的时候，才会为这个实体分配真正的私有的资源。如果大家对linux操作系统熟悉的话，那么这个概念也就不会陌生，因为它应用在linux kernel在fork一个新的进程的时候对进程的地址空间的处理。当fork一个子进程的时候，子进程会和父进程共享一个地址空间，当子进程或者是父进程需要对内存的某个页面进行修改的时候，才会重新分配一个新的页面，将原来的内容拷贝进新的页面，然后将修改的进程的虚拟地址重新映射到新的页面上。</p>
+
+<h4>std::string in G++</h4>
+
+<p>我们了解了Copy-on-Write的概念之后，想必对string的这种实现应该有个大致的印象了。其实，这里的G++中的std::string的设计就是上面所说的 <em>实现C</em> 。要实现COW，首先必须要有引用计数。当一个string对象初始化的时候，如果是采用类似与 <code>string s(&ldquo;abcde&rdquo;);</code> 这种初始化方式，那么引用计数为1，当 <code>string s1(s);</code> 的时候，引用计数需要加一。当需要对string的内容做修改的时候，就需要考虑引用计数了，如果大于1，那么就需要重新申请一份空间然后拷贝原字符串到新的空间，然后对新空间里的字符串进行操作，并且原来string的引用计数需要减1。</p>
+
+<h4>std::string in Visual C++</h4>
+
+<p>在Visual C++中， string的实现是基于短字符优化(SSO)的方案实现的，其实就是我们上面所说的 <em>实现D</em> ，如果字符串比较短，那么直接存放在对象的buffer里面，如果字符串比较长，那么就会在堆上分配一段空间，然后指向堆上新分配的空间。这里判断字符串长短的阀值通常是15个字节。</p>
+
+<p>简单提了一下C++ 里面关于string的实现，如果想了解更多的实现细节的话，可以阅读 <em>Effective STL</em> ，或者如果时间比较充裕的话，建议阅读源码吧，套用侯捷先生的一句话 <em>&ldquo;源码之前 了无秘密&rdquo;</em>。</p>
+
+<p>本文参考：</p>
+
+<p><em>Effective STL</em>  &mdash;Scott Meyers <br />
+<em>c++工程实践</em>     &mdash;陈硕</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rubik's Magic问题解答]]></title>
