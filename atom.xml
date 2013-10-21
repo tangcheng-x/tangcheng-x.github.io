@@ -4,7 +4,7 @@
   <title><![CDATA[Kevin's Blog]]></title>
   <link href="http://tangcheng-x.github.io/atom.xml" rel="self"/>
   <link href="http://tangcheng-x.github.io/"/>
-  <updated>2013-10-21T00:28:54+08:00</updated>
+  <updated>2013-10-21T09:45:44+08:00</updated>
   <id>http://tangcheng-x.github.io/</id>
   <author>
     <name><![CDATA[Kevin]]></name>
@@ -109,7 +109,7 @@ Size of s2: 8
 
 <h4>Copy-on-Write</h4>
 
-<p>Copy-on-Write, 顾名思义，就是写时拷贝，它的核心思想就是在多个实体之间共享资源，当某个尸体需要修改这个资源的时候，才会为这个实体分配真正的私有的资源。如果大家对linux操作系统熟悉的话，那么这个概念也就不会陌生，因为它应用在linux kernel在fork一个新的进程的时候对进程的地址空间的处理。当fork一个子进程的时候，子进程会和父进程共享一个地址空间，当子进程或者是父进程需要对内存的某个页面进行修改的时候，才会重新分配一个新的页面，将原来的内容拷贝进新的页面，然后将修改的进程的虚拟地址重新映射到新的页面上。</p>
+<p>Copy-on-Write, 顾名思义，就是写时拷贝，它的核心思想就是在多个实体之间共享资源，当某个实体需要修改这个资源的时候，才会为这个实体分配真正的私有的资源。如果大家对linux操作系统熟悉的话，那么这个概念也就不会陌生，因为它应用在linux kernel在fork一个新的进程的时候对进程的地址空间的处理。当fork一个子进程的时候，子进程会和父进程共享一个地址空间，当子进程或者是父进程需要对内存的某个页面进行修改的时候，才会重新分配一个新的页面，将原来的内容拷贝进新的页面，然后将修改的进程的虚拟地址重新映射到新的页面上。</p>
 
 <h4>std::string in G++</h4>
 
